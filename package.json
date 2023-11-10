@@ -1,0 +1,73 @@
+{
+  "name": "infinite-zoom-fader",
+  "version": "1.1.2",
+  "description": "A dynamic, configurable full screen background with optional overlay.",
+  "keywords": [
+    "React",
+    "Slideshow",
+    "Zoom",
+    "Fade",
+    "Infinite",
+    "Repeating Slides",
+    "Full Screen",
+    "Image Gallery",
+    "Image Slider",
+    "React Component",
+    "Customizable",
+    "Transitions",
+    "Light"
+  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": [
+    "dist"
+  ],
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "rollup": "rollup -c",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "author": "Adi Vrskic",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.23.2",
+    "@babel/preset-react": "^7.22.15",
+    "@babel/preset-typescript": "^7.23.2",
+    "@rollup/plugin-commonjs": "^24.0.1",
+    "@rollup/plugin-node-resolve": "^15.0.1",
+    "@rollup/plugin-terser": "^0.4.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@storybook/addon-actions": "^7.6.0-alpha.3",
+    "@storybook/addon-essentials": "^7.6.0-alpha.3",
+    "@storybook/addon-interactions": "^7.6.0-alpha.3",
+    "@storybook/addon-links": "^7.6.0-alpha.3",
+    "@storybook/addon-onboarding": "^1.0.8",
+    "@storybook/blocks": "^7.6.0-alpha.3",
+    "@storybook/components": "^7.6.0-alpha.3",
+    "@storybook/preset-scss": "^1.0.3",
+    "@storybook/react": "^7.6.0-alpha.3",
+    "@storybook/react-webpack5": "^7.6.0-alpha.3",
+    "@storybook/testing-library": "0.2.2-next.0",
+    "@types/react": "^18.0.28",
+    "babel-loader": "^8.3.0",
+    "css-loader": "^6.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^3.15.0",
+    "rollup-plugin-dts": "^5.1.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-scss": "^3.0.0",
+    "sass": "^1.69.5",
+    "sass-loader": "^13.3.2",
+    "storybook": "^7.6.0-alpha.3",
+    "style-loader": "^3.3.3",
+    "typescript": "^4.9.5"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "webpack": "*"
+  }
+}

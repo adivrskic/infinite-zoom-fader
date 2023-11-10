@@ -1,0 +1,47 @@
+.izf {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+
+  &__image {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    visibility: hidden;
+
+    &--active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    &--zoom-out {
+      transform: scale(var(--izf-scale));
+    }
+
+    &--zoom-in {
+      transform: scale(var(--izf-scale));
+    }
+  }
+
+  &__children {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    overflow: hidden;
+    animation: izf-children-fade-in 1.1s ease-in forwards;
+  }
+}
+
+@keyframes izf-children-fade-in {
+  100% {
+    opacity: 1;
+  }
+}
