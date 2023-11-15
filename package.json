@@ -1,6 +1,6 @@
 {
   "name": "infinite-zoom-fader",
-  "version": "2.1.1",
+  "version": "3.0.1",
   "description": "A dynamic, configurable full screen background with optional overlay.",
   "keywords": [
     "React",
@@ -15,7 +15,8 @@
     "React Component",
     "Customizable",
     "Transitions",
-    "Light"
+    "Light",
+    "Lazy Load"
   ],
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

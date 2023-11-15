@@ -109,6 +109,10 @@ const images = {
 }
 ```
 
+## Image Loading
+
+Images are lazy loaded in the component. The first 2 are loaded from the array when the component renders, then each subsequent image is loaded 1 at a time as the animation continues.
+
 ## Default Props
 
 The component uses predefined config props by default to get you up and running quickly.

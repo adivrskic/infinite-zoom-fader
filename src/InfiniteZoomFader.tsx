@@ -102,12 +102,13 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     );
   };
 
-  console.log(loadedCount);
-
   return (
     <div
       className="izf"
-      style={{ ["--izf-scale" as any]: `${zoom === "out" ? 1 + zoomMax : 1}` }}
+      style={{
+        ["--izf-scale" as any]: `${zoom === "out" ? 1 + zoomMax : 1}`,
+        ["--izf-max-z-index" as any]: `${imageArray.length}`,
+      }}
     >
       {imageArray?.slice(0, loadedCount)?.map(({ src, alt }, index) => (
         <img
