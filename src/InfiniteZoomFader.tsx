@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { arrayOf, number, oneOf, shape, string } from "prop-types";
-import "./InfiniteZoomFader.scss";
+
 import { InfiniteZoomFaderProps } from "./InfiniteZoomFader.types";
+
 import { DEFAULT_PROPS } from "./constants";
 import { useScreenSize } from "./hooks";
+
+import "./InfiniteZoomFader.scss";
 
 const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
   const {
@@ -57,7 +60,7 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     }, (zoomTime - transitionTime) * 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [zoomTime, transitionTime]);
 
   useEffect(() => {
     setPreviousIndex(
@@ -83,13 +86,12 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     );
   };
 
-  console.log("render");
   return (
     <div
       className="izf"
       style={{
-        ["--izf-scale" as any]: `${zoom === "out" ? 1 + zoomMax : 1}`,
-        ["--izf-max-z-index" as any]: `${imageArray?.length}`,
+        ["--izf-scale" as string]: `${zoom === "out" ? 1 + zoomMax : 1}`,
+        ["--izf-max-z-index" as string]: `${imageArray?.length}`,
       }}
     >
       {imageArray?.slice(0, loadedCount)?.map(({ src, alt }, index) => (
