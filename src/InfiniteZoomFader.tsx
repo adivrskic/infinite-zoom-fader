@@ -1,42 +1,52 @@
 import React, { useState, useEffect } from "react";
+import { arrayOf, number, oneOf, shape, string } from "prop-types";
 import "./InfiniteZoomFader.scss";
 import { InfiniteZoomFaderProps } from "./InfiniteZoomFader.types";
 
 const defaultProps = {
-  images: [],
-  zoomConfig: {
-    zoom: "out",
-    zoomScale: 0.5,
-    zoomTime: 10,
-    zoomTimingFunction: "linear",
-    zoomMax: 0.25,
-    transitionTime: 1,
-  },
+  zoom: "out",
+  zoomScale: 0.5,
+  zoomTime: 10,
+  zoomTimingFunction: "linear",
+  zoomMax: 0.25,
+  transitionTime: 1,
 };
 
 const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
-  const { images, zoomConfig, children } = props;
-  let {
+  const {
+    images,
     zoom,
-    zoomScale,
     zoomTime,
     zoomTimingFunction,
-    zoomMax,
     transitionTime,
-  } = zoomConfig;
-  const [previousIndex, setPreviousIndex] = useState(-1);
-  const [activeIndex, setActiveIndex] = useState(-1);
-  const [switching, setSwitching] = useState(false);
-  const validateProps = () => {
-    if (zoomScale > 1) zoomScale = 1;
-    if (zoomScale < 0) zoomScale = 0;
-    if (zoomMax > 1) zoomMax = 1;
-    if (zoomMax < 0) zoomMax = 0;
+    children,
+  } = props;
+  let { zoomMax, zoomScale } = props;
+
+  if (!images) return null;
+
+  const [width, setWidth] = useState<number>(window.innerWidth);
+  const handleWindowSizeChange = () => {
+    setWidth(window.innerWidth);
   };
 
   useEffect(() => {
-    validateProps();
+    window.addEventListener("resize", handleWindowSizeChange);
+    return () => {
+      window.removeEventListener("resize", handleWindowSizeChange);
+    };
+  }, []);
 
+  const isMobile = width <= 768;
+  const imageArray = isMobile ? images?.mobile : images?.desktop;
+
+  const [previousIndex, setPreviousIndex] = useState(-1);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const [switching, setSwitching] = useState(false);
+  const scaling =
+    zoom === "in" ? 1 + zoomMax * zoomScale : 1 + zoomMax - zoomMax * zoomScale;
+
+  useEffect(() => {
     const timeout = setTimeout(() => {
       setActiveIndex(0);
     }, 1);
@@ -44,13 +54,10 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const scaling =
-    zoom === "in" ? 1 + zoomMax * zoomScale : 1 + zoomMax - zoomMax * zoomScale;
-
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((activeIndex) =>
-        activeIndex >= images.length - 1 ? 0 : activeIndex + 1
+        activeIndex >= imageArray.length - 1 ? 0 : activeIndex + 1
       );
 
       setSwitching(true);
@@ -66,17 +73,26 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
   }, []);
 
   useEffect(() => {
-    setPreviousIndex(activeIndex - 1 < 0 ? images.length - 1 : activeIndex - 1);
+    setPreviousIndex(
+      activeIndex - 1 < 0 ? imageArray.length - 1 : activeIndex - 1
+    );
   }, [activeIndex]);
+
+  useEffect(() => {
+    if (zoomScale < 0) zoomScale = 0;
+    if (zoomScale > 1) zoomScale = 1;
+    if (zoomMax < 0) zoomMax = 0;
+    if (zoomMax > 1) zoomMax = 1;
+  }, [zoomScale, zoomMax]);
 
   const shouldAnimate = (index: number) => {
     return (
       activeIndex === index ||
       (activeIndex === index + 1 && switching) ||
       (activeIndex === 0 &&
-        previousIndex === images.length - 1 &&
+        previousIndex === imageArray.length - 1 &&
         switching &&
-        (index === 0 || index === images.length - 1))
+        (index === 0 || index === imageArray.length - 1))
     );
   };
 
@@ -85,7 +101,7 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
       className="izf"
       style={{ ["--izf-scale" as any]: `${zoom === "out" ? 1 + zoomMax : 1}` }}
     >
-      {images?.map(({ src, alt }, index) => (
+      {imageArray?.map(({ src, alt }, index) => (
         <img
           className={`izf__image 
           ${shouldAnimate(index) ? "izf__image--active " : ""}${
@@ -97,8 +113,8 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
                   transition: `opacity .5s ease-in, transform ${zoomTime}s ${zoomTimingFunction}`,
                   transform: `scale(${scaling})`,
                   zIndex: `${
-                    activeIndex === 0 && previousIndex === images.length - 1
-                      ? images.length - index
+                    activeIndex === 0 && previousIndex === imageArray.length - 1
+                      ? imageArray.length - index
                       : ""
                   }`,
                 }
@@ -116,5 +132,38 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
 };
 
 InfiniteZoomFader.defaultProps = defaultProps;
+InfiniteZoomFader.propTypes = {
+  images: shape({
+    desktop: arrayOf(shape({ src: string, alt: string })),
+    mobile: arrayOf(shape({ src: string, alt: string })),
+  }).isRequired,
+  zoom: oneOf(["in", "out"]),
+  zoomMax: (props: InfiniteZoomFaderProps) => {
+    if (props.zoomScale < 0 || props.zoomScale > 1) {
+      return new Error(
+        "Invalid value supplied as zoomMax: must be a value between 0 and 1"
+      );
+    }
+  },
+  zoomScale: (props: InfiniteZoomFaderProps) => {
+    if (props.zoomScale < 0 || props.zoomScale > 1) {
+      return new Error(
+        "Invalid value supplied as zoomScale: must be a value between 0 and 1"
+      );
+    }
+  },
+  zoomTime: number,
+  zoomTimingFunction: oneOf([
+    "linear",
+    "ease",
+    "ease-in",
+    "ease-out",
+    "ease-in-out",
+    RegExp(
+      /cubic-bezier\\(([0-9]*\\.?[0-9]+),\\s*([0-9]*\\.?[0-9]+),\\s*([0-9]*\\.?[0-9]+),\\s*([0-9]*\\.?[0-9]+)\\)/
+    ),
+  ]),
+  transitionTime: number,
+};
 
 export default InfiniteZoomFader;

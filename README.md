@@ -23,17 +23,16 @@ import { InfiniteZoomFader } from "infinite-zoom-fader";
 import { images } from "./images";
 
 const App = () => {
-  const zoomConfig = {
-    zoom: "out",
-    zoomScale: 0.5,
-    zoomTime: 10,
-    zoomMax: 0.25,
-    zoomTimingFunction: 'linear',
-    transitionTime: 1,
-  };
-
   return (
-    <InfiniteZoomFader images={images} zoomConfig={...zoomConfig} />
+    <InfiniteZoomFader
+      images={images}
+      zoom: "out",
+      zoomScale: 0.5,
+      zoomTime: 10,
+      zoomMax: 0.25,
+      zoomTimingFunction: 'linear',
+      transitionTime: 1
+    />
   );
 };
 
@@ -49,17 +48,16 @@ import { InfiniteZoomFader } from "infinite-zoom-fader";
 import { images } from "./images";
 
 const App = () => {
-  const zoomConfig = {
-    zoom: "out",
-    zoomScale: 0.5,
-    zoomTime: 10,
-    zoomMax: 0.25,
-    zoomTimingFunction: 'linear',
-    transitionTime: 1,
-  };
-
   return (
-    <InfiniteZoomFader images={images} zoomConfig={...zoomConfig}>
+    <InfiniteZoomFader
+      images={images}
+      zoom: "out",
+      zoomScale: 0.5,
+      zoomTime: 10,
+      zoomMax: 0.25,
+      zoomTimingFunction: 'linear',
+      transitionTime: 1
+    >
       <div>
         <h1>Header</h1>
         <p>Subheader</p>
@@ -74,21 +72,57 @@ export default App;
 
 ## Props
 
-`images`: An array of objects containing your image sources and alt texts.
+`images`: (Required) An object containing arrays of your desktop and mobile image sources and alts
 
-`zoomConfig`: An object containing the component configuration.
+`zoom`: 'in' or 'out'
 
-`zoomConfig.zoom`: 'in' or 'out'
+`zoomMax`: Number Between 0 and 1
 
-`zoomConfig.zoomMax`: Number Between 0 and 1
+`zoomScale`: Number Between 0 and 1
 
-`zoomConfig.zoomScale`: Number Between 0 and 1
+`zoomTime`: Number
 
-`zoomConfig.zoomTime`: Number
+`zoomTimingFunction`: CSS Timing Function or Cubic Bezier Function
 
-`zoomConfig.zoomTimingFunction`: CSS Timing Function or Cubic Bezier Function
+`transitionTime`: Number
 
-`zoomConfig.transitionTime`: Number
+## Images
+
+Structure your images object with either desktop images, mobile images, or both. Mobile images will display if the viewport is smaller, and desktop images will display if the viewport is larger.
+
+```
+const images = {
+  desktop: [
+    {
+      src: '/images/image1Src',
+      alt: 'Image 1 alt
+    }
+    ...
+  ],
+  mobile: [
+    {
+      src: '/images/mobileImage1Src',
+      alt: 'Mobile image 1 alt
+    }
+    ...
+  ]
+}
+```
+
+## Default Props
+
+The component uses predefined config props by default to get you up and running quickly.
+`zoom`: 'out'
+
+`zoomMax`: 0.25
+
+`zoomScale`: 0.5
+
+`zoomTime`: 10
+
+`zoomTimingFunction`: 'linear'
+
+`transitionTime`: 1
 
 ## License
 

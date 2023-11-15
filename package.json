@@ -1,6 +1,6 @@
 {
   "name": "infinite-zoom-fader",
-  "version": "1.1.2",
+  "version": "2.1.1",
   "description": "A dynamic, configurable full screen background with optional overlay.",
   "keywords": [
     "React",
@@ -69,5 +69,8 @@
   "peerDependencies": {
     "react": "^18.2.0",
     "webpack": "*"
+  },
+  "dependencies": {
+    "prop-types": "^15.8.1"
   }
 }
