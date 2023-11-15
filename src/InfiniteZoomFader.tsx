@@ -40,6 +40,7 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
   const isMobile = width <= 768;
   const imageArray = isMobile ? images?.mobile : images?.desktop;
 
+  const [loadedCount, setLoadedCount] = useState(2);
   const [previousIndex, setPreviousIndex] = useState(-1);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [switching, setSwitching] = useState(false);
@@ -61,6 +62,11 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
       );
 
       setSwitching(true);
+      setLoadedCount((loadedCount) =>
+        loadedCount >= imageArray.length
+          ? imageArray.length
+          : (loadedCount += 1)
+      );
 
       const timeout = setTimeout(() => {
         setSwitching(false);
@@ -96,12 +102,14 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     );
   };
 
+  console.log(loadedCount);
+
   return (
     <div
       className="izf"
       style={{ ["--izf-scale" as any]: `${zoom === "out" ? 1 + zoomMax : 1}` }}
     >
-      {imageArray?.map(({ src, alt }, index) => (
+      {imageArray?.slice(0, loadedCount)?.map(({ src, alt }, index) => (
         <img
           className={`izf__image 
           ${shouldAnimate(index) ? "izf__image--active " : ""}${
@@ -123,7 +131,6 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
           src={src}
           key={`${src}-${index}`}
           alt={alt}
-          loading="lazy"
         />
       ))}
       {children && <div className={`izf__children`}>{children}</div>}
