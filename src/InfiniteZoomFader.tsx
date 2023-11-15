@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { arrayOf, number, oneOf, shape, string } from "prop-types";
 import "./InfiniteZoomFader.scss";
 import { InfiniteZoomFaderProps } from "./InfiniteZoomFader.types";
-import { MOBILE_WIDTH, DEFAULT_PROPS } from "./constants";
+import { DEFAULT_PROPS } from "./constants";
+import { useScreenSize } from "./hooks";
 
 const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
   const {
@@ -17,19 +18,7 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
 
   if (!images) return null;
 
-  const [width, setWidth] = useState(window.innerWidth);
-  const handleWindowSizeChange = () => {
-    setWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleWindowSizeChange);
-    return () => {
-      window.removeEventListener("resize", handleWindowSizeChange);
-    };
-  }, []);
-
-  const isMobile = width <= MOBILE_WIDTH;
+  const isMobile = useScreenSize();
   const imageArray = isMobile ? images?.mobile : images?.desktop;
 
   const [loadedCount, setLoadedCount] = useState(2);
@@ -94,6 +83,7 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     );
   };
 
+  console.log("render");
   return (
     <div
       className="izf"
