@@ -37,7 +37,6 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
 
   const max = getVal(zoomMax);
   const scale = getVal(zoomScale);
-  console.log(max, scale);
   const scaling = zoom === "in" ? 1 + max * scale : 1 + max - max * scale;
 
   useEffect(() => {
@@ -65,12 +64,8 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
         setSwitching(false);
       }, transitionTime * 1000);
 
-      console.log("timeout: ", transitionTime * 1000);
-
       return () => clearTimeout(timeout);
     }, (zoomTime - transitionTime) * 1000);
-
-    console.log("interval: ", (zoomTime - transitionTime) * 1000);
 
     return () => clearInterval(interval);
   }, [zoomTime, transitionTime]);
@@ -91,14 +86,6 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
         (index === 0 || index === imageArray?.length - 1))
     );
   };
-
-  // console.log("Props:");
-  // console.log("zoom: ", zoom);
-  // console.log("zoomScale: ", zoomScale);
-  // console.log("zoomMax: ", zoomMax);
-  // console.log("zoomTime: ", zoomTime);
-  // console.log("zoomTimingFunction: ", zoomTimingFunction);
-  // console.log("transitionTime: ", transitionTime);
 
   return (
     <div
