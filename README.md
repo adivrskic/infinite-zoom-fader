@@ -72,19 +72,15 @@ export default App;
 
 ## Props
 
-`images`: (Required) An object containing arrays of your desktop and mobile image sources and alts
-
-`zoom`: 'in' or 'out'
-
-`zoomMax`: Number Between 0 and 1
-
-`zoomScale`: Number Between 0 and 1
-
-`zoomTime`: Number
-
-`zoomTimingFunction`: CSS Timing Function or Cubic Bezier Function
-
-`transitionTime`: Number
+| Prop                 | Description                                                                              |
+| -------------------- | ---------------------------------------------------------------------------------------- |
+| `images`             | (Required) An object containing arrays of your desktop and mobile image sources and alts |
+| `zoom`               | 'in' or 'out'                                                                            |
+| `zoomMax`            | Number Between 0 and 1                                                                   |
+| `zoomScale`          | Number Between 0 and 1                                                                   |
+| `zoomTime`           | Number                                                                                   |
+| `zoomTimingFunction` | CSS Timing Function or Cubic Bezier Function                                             |
+| `transitionTime`     | Number                                                                                   |
 
 ## Images
 
@@ -116,17 +112,15 @@ Images are lazy loaded in the component. The first 2 are loaded from the array w
 ## Default Props
 
 The component uses predefined config props by default to get you up and running quickly.
-`zoom`: 'out'
 
-`zoomMax`: 0.25
-
-`zoomScale`: 0.5
-
-`zoomTime`: 10
-
-`zoomTimingFunction`: 'linear'
-
-`transitionTime`: 1
+| Prop                 | Default Value |
+| -------------------- | ------------- |
+| `zoom`               | 'out'         |
+| `zoomMax`            | 0.25          |
+| `zoomScale`          | 0.5           |
+| `zoomTime`           | 10            |
+| `zoomTimingFunction` | 'linear'      |
+| `transitionTime`     | 1             |
 
 ## License
 

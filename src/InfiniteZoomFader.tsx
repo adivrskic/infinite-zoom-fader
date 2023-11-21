@@ -97,13 +97,14 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
       {imageArray?.slice(0, loadedCount)?.map(({ src, alt }, index) => (
         <img
           className={`izf__image 
-          ${shouldAnimate(index) ? "izf__image--active " : ""}${
-            zoom === "out" ? "izf__image--zoom-out " : "izf__image--zoom-in "
+            ${shouldAnimate(index) ? "izf__image--active " : ""}
+            ${zoom === "out" && "izf__image--zoom-out"}
+            ${zoom === "in" && "izf__image--zoom-in"} 
           }`}
           style={
             shouldAnimate(index)
               ? {
-                  transition: `opacity .5s ease-in, transform ${zoomTime}s ${zoomTimingFunction}`,
+                  transition: `opacity 0.67s ${zoomTimingFunction}, transform ${zoomTime}s ${zoomTimingFunction}`,
                   transform: `scale(${scaling})`,
                   zIndex: `${
                     activeIndex === 0 &&
