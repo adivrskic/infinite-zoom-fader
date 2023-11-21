@@ -28,8 +28,17 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
   const [previousIndex, setPreviousIndex] = useState(-1);
   const [activeIndex, setActiveIndex] = useState(-1);
   const [switching, setSwitching] = useState(false);
-  const scaling =
-    zoom === "in" ? 1 + zoomMax * zoomScale : 1 + zoomMax - zoomMax * zoomScale;
+
+  const getVal = (val: number) => {
+    if (val < 0) return 0;
+    if (val > 1) return 1;
+    return val;
+  };
+
+  const max = getVal(zoomMax);
+  const scale = getVal(zoomScale);
+  console.log(max, scale);
+  const scaling = zoom === "in" ? 1 + max * scale : 1 + max - max * scale;
 
   useEffect(() => {
     const timeout = setTimeout(() => {
@@ -56,8 +65,12 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
         setSwitching(false);
       }, transitionTime * 1000);
 
+      console.log("timeout: ", transitionTime * 1000);
+
       return () => clearTimeout(timeout);
     }, (zoomTime - transitionTime) * 1000);
+
+    console.log("interval: ", (zoomTime - transitionTime) * 1000);
 
     return () => clearInterval(interval);
   }, [zoomTime, transitionTime]);
@@ -67,13 +80,6 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
       activeIndex - 1 < 0 ? imageArray?.length - 1 : activeIndex - 1
     );
   }, [activeIndex]);
-
-  useEffect(() => {
-    if (zoomScale < 0) zoomScale = 0;
-    if (zoomScale > 1) zoomScale = 1;
-    if (zoomMax < 0) zoomMax = 0;
-    if (zoomMax > 1) zoomMax = 1;
-  }, [zoomScale, zoomMax]);
 
   const shouldAnimate = (index: number) => {
     return (
@@ -86,11 +92,19 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     );
   };
 
+  // console.log("Props:");
+  // console.log("zoom: ", zoom);
+  // console.log("zoomScale: ", zoomScale);
+  // console.log("zoomMax: ", zoomMax);
+  // console.log("zoomTime: ", zoomTime);
+  // console.log("zoomTimingFunction: ", zoomTimingFunction);
+  // console.log("transitionTime: ", transitionTime);
+
   return (
     <div
       className="izf"
       style={{
-        ["--izf-scale" as string]: `${zoom === "out" ? 1 + zoomMax : 1}`,
+        ["--izf-scale" as string]: `${zoom === "out" ? 1 + max : 1}`,
         ["--izf-max-z-index" as string]: `${imageArray?.length}`,
       }}
     >
