@@ -16,8 +16,9 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     zoomTimingFunction,
     transitionTime,
     children,
+    zoomMax,
+    zoomScale,
   } = props;
-  let { zoomMax, zoomScale } = props;
 
   if (!images) return null;
 
@@ -91,7 +92,9 @@ const InfiniteZoomFader = (props: InfiniteZoomFaderProps) => {
     <div
       className="izf"
       style={{
-        ["--izf-scale" as string]: `${zoom === "out" ? 1 + max : 1}`,
+        ["--izf-scale" as string]: `${
+          zoom === "out" ? 1 + getVal(zoomMax) : 1
+        }`,
         ["--izf-max-z-index" as string]: `${imageArray?.length}`,
       }}
     >
